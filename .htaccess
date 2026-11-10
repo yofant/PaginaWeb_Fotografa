@@ -3,12 +3,14 @@
 ErrorDocument 404 /PaginaWeb_Fotografa/404.php
 
 # -----------------------------------------------------------
-# Redirección forzada a HTTPS (solo producción, ignora localhost)
-# Descomenta la siguiente sección al subir a producción con SSL:
+# Redirección forzada a HTTPS (producción con SSL)
+# NOTA: Desactivado temporalmente para evitar Error 500 en servidores
+# sin mod_rewrite o detrás de túneles ngrok (SSL se termina en ngrok).
+# Habilitar solo si el servidor tiene mod_rewrite activo y SSL directo.
 # -----------------------------------------------------------
-RewriteEngine On
-RewriteCond %{HTTPS} off
-RewriteCond %{HTTP_HOST} !^localhost
-RewriteCond %{HTTP_HOST} !^127\.0\.0\.1
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteCond %{HTTP_HOST} !^localhost
+# RewriteCond %{HTTP_HOST} !^127\.0\.0\.1
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # -----------------------------------------------------------

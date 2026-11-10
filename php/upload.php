@@ -4,12 +4,24 @@
  * ISO/IEC 27001: Validación de entradas, control de archivos, auditoría
  * Genera marca de agua en las imágenes de la galería usando GD
  */
+// Nunca mostrar errores directamente al cliente (evita contaminar respuestas JSON)
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+// Capturar cualquier output accidental antes del JSON
+ob_start();
+
+// Convertir warnings/notices de PHP en excepciones para capturarlos en JSON
+set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+});
+
 require_once 'config.php';
 
 header('Content-Type: application/json');
 
 // Verificar autenticación
 if (empty($_SESSION['usuario_id'])) {
+    ob_clean();
     http_response_code(401);
     echo json_encode(['exito' => false, 'mensaje' => 'No autenticado. Inicie sesión como fotógrafa.']);
     exit;
@@ -21,6 +33,7 @@ if (empty($_SESSION['usuario_id'])) {
 // La autenticación por sesión es la protección principal.
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    ob_clean();
     http_response_code(405);
     echo json_encode(['exito' => false, 'mensaje' => 'Método no permitido']);
     exit;
@@ -42,6 +55,7 @@ try {
         $stmtEv = $pdo->prepare("SELECT id FROM eventos WHERE id = ? LIMIT 1");
         $stmtEv->execute([$evento_id]);
         if (!$stmtEv->fetch()) {
+            ob_clean();
             http_response_code(400);
             echo json_encode(['exito' => false, 'mensaje' => 'El evento seleccionado no existe.']);
             exit;
@@ -51,6 +65,7 @@ try {
         $stmtSub = $pdo->prepare("SELECT id FROM subcarpetas WHERE id = ? LIMIT 1");
         $stmtSub->execute([$subcarpeta_id]);
         if (!$stmtSub->fetch()) {
+            ob_clean();
             http_response_code(400);
             echo json_encode(['exito' => false, 'mensaje' => 'La subcarpeta seleccionada no existe.']);
             exit;
@@ -60,6 +75,7 @@ try {
 
     // Validar archivo
     if (!isset($_FILES['foto']) || !isset($_FILES['foto']['tmp_name']) || $_FILES['foto']['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($_FILES['foto']['tmp_name'])) {
+        ob_clean();
         http_response_code(400);
         echo json_encode(['exito' => false, 'mensaje' => 'No se recibió el archivo de imagen']);
         exit;
@@ -70,12 +86,14 @@ try {
     $nombre_original = limpiar_entrada($archivo['name'] ?? '');
 
     if (!in_array($extension, ALLOWED_EXTENSIONS, true)) {
+        ob_clean();
         http_response_code(400);
         echo json_encode(['exito' => false, 'mensaje' => 'Extensión no permitida. Use jpg, jpeg, png o webp.']);
         exit;
     }
 
     if ($archivo['size'] > MAX_FILE_SIZE) {
+        ob_clean();
         http_response_code(400);
         echo json_encode(['exito' => false, 'mensaje' => 'El archivo excede los 10 MB.']);
         exit;
@@ -85,12 +103,14 @@ try {
     $mime_real = $finfo->file($archivo['tmp_name']);
     $mime_permitidos = ['image/jpeg', 'image/png', 'image/webp'];
     if (!in_array($mime_real, $mime_permitidos, true)) {
+        ob_clean();
         http_response_code(400);
         echo json_encode(['exito' => false, 'mensaje' => 'El archivo no es una imagen válida.']);
         exit;
     }
 
     if (!is_dir(UPLOAD_DIR) && !mkdir(UPLOAD_DIR, 0775, true) && !is_dir(UPLOAD_DIR)) {
+        ob_clean();
         http_response_code(500);
         echo json_encode(['exito' => false, 'mensaje' => 'No se pudo preparar la carpeta de uploads.']);
         exit;
@@ -103,6 +123,7 @@ try {
     // Mover archivo subido temporalmente
     if (!move_uploaded_file($archivo['tmp_name'], $ruta_destino)) {
         error_log("No se pudo mover la foto subida a $ruta_destino. Verifique los permisos de escritura de UPLOAD_DIR.");
+        ob_clean();
         http_response_code(500);
         echo json_encode([
             'exito' => false,
@@ -189,6 +210,7 @@ try {
 
     registrar_auditoria('subida_foto', $_SESSION['usuario_id']);
 
+    ob_clean();
     echo json_encode([
         'exito' => true,
         'mensaje' => 'Foto subida correctamente con marca de agua',
@@ -200,8 +222,14 @@ try {
 
 } catch (Exception $e) {
     error_log("Error subida: " . $e->getMessage());
+    ob_clean();
     http_response_code(500);
-    echo json_encode(['exito' => false, 'mensaje' => 'Error del servidor al subir la foto']);
+    echo json_encode([
+        'exito' => false,
+        'mensaje' => 'Error del servidor: ' . $e->getMessage(),
+        'archivo' => $e->getFile(),
+        'linea' => $e->getLine()
+    ]);
 }
 
 /**
