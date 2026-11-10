@@ -21,7 +21,11 @@ header('Expires: 0');
   <meta property="og:title" content="<?php echo isset($titulo_pagina) ? htmlspecialchars($titulo_pagina) : 'JENI HDZ'; ?> - Fotografía Moto Velocidad">
   <meta property="og:description" content="<?php echo isset($meta_descripcion) ? htmlspecialchars($meta_descripcion) : 'JENI HDZ - Fotógrafa especializada en moto velocidad. Galería, paquetes y contacto.'; ?>">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="<?php echo htmlspecialchars(((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://') . ($_SERVER['HTTP_HOST'] ?? 'localhost') . ($_SERVER['REQUEST_URI'] ?? '')); ?>">
+  <?php
+    $es_seguro = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+    $protocolo = $es_seguro ? 'https://' : 'http://';
+  ?>
+  <meta property="og:url" content="<?php echo htmlspecialchars($protocolo . ($_SERVER['HTTP_HOST'] ?? 'localhost') . ($_SERVER['REQUEST_URI'] ?? '')); ?>">
   <meta property="og:image" content="<?php echo htmlspecialchars(APP_URL . '/assets/images/og-image.jpg'); ?>">
   <meta property="og:locale" content="es_CO">
   <!-- Twitter Card -->

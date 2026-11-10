@@ -3,11 +3,13 @@
 ErrorDocument 404 /PaginaWeb_Fotografa/404.php
 
 # -----------------------------------------------------------
-# Redirección forzada a HTTPS (solo producción, ignora localhost)
+# Redirección forzada a HTTPS (solo producción, ignora localhost y túneles ngrok)
 # -----------------------------------------------------------
 RewriteEngine On
-RewriteCond %{HTTPS} off
+# No redirigir en localhost ni cuando ya venga por HTTPS (incluye ngrok que envía X-Forwarded-Proto: https)
 RewriteCond %{HTTP_HOST} !^localhost
 RewriteCond %{HTTP_HOST} !^127\.0\.0\.1
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # -----------------------------------------------------------

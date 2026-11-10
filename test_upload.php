@@ -169,7 +169,7 @@ try {
         throw new RuntimeException('No se pudo iniciar el servidor PHP de prueba.');
     }
 
-    $es_https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    $es_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
     $url = ($es_https ? 'https://' : 'http://') . $direccion . '/php/upload.php';
     $servidorListo = false;
     for ($intento = 0; $intento < 30; $intento++) {
