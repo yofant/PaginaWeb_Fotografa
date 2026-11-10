@@ -1,0 +1,25 @@
+{
+  "name": "jeni-hdz-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-07",
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "jeni_hdz_gallery",
+      "database_id": "REEMPLAZAR_CON_DATABASE_ID_DE_D1"
+    }
+  ],
+  "migrations": [
+    {
+      "tag": "v1_initial",
+      "file": "./migrations/0001_initial.sql"
+    }
+  ],
+  "vars": {
+    "APP_NAME": "JENI HDZ - Fotografía Moto Velocidad",
+    "APP_ENV": "development"
+  }
+}
