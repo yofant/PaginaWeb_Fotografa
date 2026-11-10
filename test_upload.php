@@ -169,7 +169,8 @@ try {
         throw new RuntimeException('No se pudo iniciar el servidor PHP de prueba.');
     }
 
-    $url = 'http://' . $direccion . '/php/upload.php';
+    $es_https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    $url = ($es_https ? 'https://' : 'http://') . $direccion . '/php/upload.php';
     $servidorListo = false;
     for ($intento = 0; $intento < 30; $intento++) {
         usleep(100000);

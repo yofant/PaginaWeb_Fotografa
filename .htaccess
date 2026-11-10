@@ -1,3 +1,14 @@
 # .htaccess para JENI HDZ
 # Redirigir errores 404 a página personalizada
 ErrorDocument 404 /PaginaWeb_Fotografa/404.php
+
+# -----------------------------------------------------------
+# Redirección forzada a HTTPS (solo producción, ignora localhost)
+# Descomenta la siguiente sección al subir a producción con SSL:
+# -----------------------------------------------------------
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteCond %{HTTP_HOST} !^localhost
+# RewriteCond %{HTTP_HOST} !^127\.0\.0\.1
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# -----------------------------------------------------------

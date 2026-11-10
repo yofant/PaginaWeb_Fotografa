@@ -14,7 +14,8 @@ define('DB_CHARSET', 'utf8mb4');
 
 // Configuración de seguridad
 define('APP_NAME', 'JENI HDZ - Fotografía Moto Velocidad');
-define('APP_URL', 'http://localhost/PaginaWeb_Fotografa');
+// Detecta http o https automáticamente (funciona en local y producción)
+define('APP_URL', (((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . '/PaginaWeb_Fotografa');
 define('WHATSAPP_NUMBER', '+573125879821'); // Número de WhatsApp de la fotógrafa
 define('SESSION_TIMEOUT', 1800); // 30 minutos de inactividad
 
@@ -89,7 +90,8 @@ function validar_token_csrf($token) {
 // Iniciar sesión si no está activa
 if (session_status() === PHP_SESSION_NONE) {
     ini_set('session.cookie_httponly', 1);
-    ini_set('session.cookie_secure', 0); // Poner 1 en producción con HTTPS
+    // Cookie segura solo si la conexión es HTTPS (local: 0, producción con SSL: 1)
+    ini_set('session.cookie_secure', (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 1 : 0);
     ini_set('session.use_only_cookies', 1);
     ini_set('session.cookie_path', '/'); // Cookie válida en todo el sitio
     ini_set('session.cookie_samesite', 'Lax');
