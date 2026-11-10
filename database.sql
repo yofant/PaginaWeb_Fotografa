@@ -31,8 +31,21 @@ CREATE TABLE eventos (
     circuito VARCHAR(150),
     pais VARCHAR(100),
     descripcion TEXT,
+    imagen_portada VARCHAR(255),
     activo TINYINT(1) DEFAULT 1,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabla de subcarpetas/categorías dentro de eventos
+CREATE TABLE IF NOT EXISTS subcarpetas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    evento_id INT NOT NULL,
+    nombre VARCHAR(150) NOT NULL,
+    descripcion TEXT,
+    activo TINYINT(1) DEFAULT 1,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (evento_id) REFERENCES eventos(id) ON DELETE CASCADE,
+    INDEX idx_evento_sub (evento_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Tabla de fotos subidas por la fotógrafa
@@ -40,6 +53,7 @@ CREATE TABLE fotos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_archivo VARCHAR(255) NOT NULL,
     ruta_archivo VARCHAR(500) NOT NULL,
+    nombre_original VARCHAR(255),
     titulo VARCHAR(200),
     descripcion TEXT,
     color_predominante VARCHAR(50),
@@ -47,18 +61,21 @@ CREATE TABLE fotos (
     numero_piloto VARCHAR(20),
     fecha_foto DATE,
     evento_id INT,
+    subcarpeta_id INT DEFAULT NULL,
     precio DECIMAL(10,2) DEFAULT 0.00,
     disponible TINYINT(1) DEFAULT 1,
     vistas INT DEFAULT 0,
     fecha_subida TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     subido_por INT,
     FOREIGN KEY (evento_id) REFERENCES eventos(id) ON DELETE SET NULL,
+    FOREIGN KEY (subcarpeta_id) REFERENCES subcarpetas(id) ON DELETE SET NULL,
     FOREIGN KEY (subido_por) REFERENCES usuarios(id) ON DELETE SET NULL,
     INDEX idx_color (color_predominante),
     INDEX idx_moto (numero_moto),
     INDEX idx_piloto (numero_piloto),
     INDEX idx_fecha (fecha_foto),
-    INDEX idx_evento (evento_id)
+    INDEX idx_evento (evento_id),
+    INDEX idx_subcarpeta (subcarpeta_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Tabla de paquetes de la fotógrafa
@@ -71,6 +88,18 @@ CREATE TABLE paquetes (
     entregas_dias INT DEFAULT 7,
     activo TINYINT(1) DEFAULT 1,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabla de mensajes de contacto
+CREATE TABLE contactos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    telefono VARCHAR(50) NOT NULL,
+    asunto VARCHAR(100) NOT NULL,
+    mensaje TEXT NOT NULL,
+    terminos_aceptados TINYINT(1) DEFAULT 0,
+    fecha_contacto TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Tabla de compras / carrito (registros de intención de compra vía WhatsApp)
@@ -93,6 +122,7 @@ CREATE TABLE compras (
 
 INSERT INTO usuarios (nombre, email, password_hash, rol, telefono, whatsapp) VALUES
 ('JENI HDZ', 'jeni@jenihdz.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'fotografa', '+52 55 1234 5678', '+525512345678');
+-- Contraseña del usuario de prueba: password (cambiar en producción)
 
 INSERT INTO eventos (nombre, fecha, circuito, pais, descripcion) VALUES
 ('Gran Premio de México 2026', '2026-10-25', 'Autódromo Hermanos Rodríguez', 'México', 'Evento de MotoGP en Ciudad de México'),

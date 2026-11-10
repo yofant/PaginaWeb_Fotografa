@@ -52,7 +52,7 @@
           <div class="item-info">
             <h4>${escapeHtml(item.titulo || 'Foto #' + item.id)}</h4>
             <p>#${escapeHtml(item.numero_moto || '-')} • Piloto #${escapeHtml(item.numero_piloto || '-')}</p>
-            <p>COP $${parseFloat(item.precio || 0).toFixed(2).replace('.', ',')}</p>
+            <p>COP $${formatearCOP(parseFloat(item.precio || 0))}</p>
           </div>
           <button class="eliminar-item" onclick="eliminarDelCarrito(${index})">&times;</button>
         `;
@@ -60,7 +60,7 @@
       });
     }
 
-    if (totalCarrito) totalCarrito.textContent = 'COP $' + total.toFixed(2).replace('.', ',');
+    if (totalCarrito) totalCarrito.textContent = 'COP $' + formatearCOP(total);
 
   }
 
@@ -106,7 +106,8 @@
 
       if (formFinalizarCompra) {
         formFinalizarCompra.hidden = false;
-        document.getElementById('nombreCliente')?.focus();
+        var nombreClienteEl = document.getElementById('nombreCliente');
+        if (nombreClienteEl) nombreClienteEl.focus();
       }
     });
   }
@@ -133,16 +134,21 @@
 
   async function finalizarCompra(cliente) {
     try {
+      const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+      const csrfToken = csrfMeta ? csrfMeta.content : '';
       const respuesta = await fetch('php/save_purchase.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin',
         body: JSON.stringify({
           nombre: cliente.nombre,
           email: cliente.email,
           telefono: cliente.whatsapp,
           whatsapp: cliente.whatsapp,
           fotos: carrito.map((c) => c.id),
-          total: cliente.total
+          csrf_token: csrfToken
         })
       });
 
@@ -192,6 +198,13 @@
   renderizar();
 
 })();
+
+function formatearCOP(valor) {
+  const num = parseFloat(valor || 0);
+  const partes = num.toFixed(3).split('.');
+  const entero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return entero + ',' + partes[1];
+}
 
 function escapeHtml(texto) {
   if (!texto) return '';

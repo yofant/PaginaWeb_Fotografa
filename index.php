@@ -1,5 +1,6 @@
 <?php
 $titulo_pagina = 'Bienvenida | JENI HDZ';
+$meta_descripcion = 'JENI HDZ - Fotógrafa especializada en moto velocidad. Capturando la adrenalina de cada curva. Galería, paquetes y contacto.';
 require_once 'includes/header.php';
 ?>
 
@@ -20,7 +21,7 @@ require_once 'includes/header.php';
   <div class="container">
     <div class="nosotros-grid">
       <div class="nosotros-img">
-        <img src="assets/images/moto-velocidad.jpg" alt="Moto velocidad en pista" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1577003724279-73e46c3b6ec0?w=800&q=80'">
+        <img src="assets/uploads/WhatsApp Image 2026-11-07 at 2.14.54 PM.jpeg" alt="Moto velocidad en pista" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1577003724279-73e46c3b6ec0?w=800&q=80'">
         <div class="nosotros-overlay">JENI HDZ</div>
       </div>
       <div class="nosotros-texto">
@@ -40,34 +41,37 @@ require_once 'includes/header.php';
     <div class="paquetes-grid">
       <div class="paquete">
         <h3>Básico</h3>
-        <span class="precio">COP $250</span>
+        <span class="precio">COP $40.000</span>
         <ul>
           <li>5 fotos editadas</li>
-          <li>Alta resolución</li>
+          <li>1 Foto de obsequio</li>
           <li>Marca de agua</li>
-          <li>Entrega en 3 días</li>
+          <li>Alta resolución</li>
+          <li>Entrega en 1 día</li>
         </ul>
         <a href="contacto.php" class="btn btn--ghost">Contratar</a>
       </div>
       <div class="paquete">
         <h3>Estándar</h3>
-        <span class="precio">COP $600</span>
+        <span class="precio">COP $70.000</span>
         <ul>
-          <li>15 fotos editadas</li>
-          <li>1 canvas pequeña</li>
-          <li>Galería privada</li>
-          <li>Entrega en 5 días</li>
+          <li>10 fotos editadas</li>
+          <li>1 Foto de obsequio</li>
+          <li>Marca de agua</li>
+          <li>Alta resolución</li>
+          <li>Entrega en 1 día</li>
         </ul>
         <a href="contacto.php" class="btn btn--ghost">Contratar</a>
       </div>
       <div class="paquete">
-        <h3>Premium</h3>
-        <span class="precio">COP $1.200</span>
+        <h3>Parejas</h3>
+        <span class="precio">COP $120.000</span>
         <ul>
-          <li>30 fotos editadas</li>
-          <li>2 canvas + álbum</li>
-          <li>Galería privada</li>
-          <li>Entrega en 7 días</li>
+          <li>15 fotos editadas</li>
+          <li>1 Foto de obsequio</li>
+          <li>Marca de agua</li>
+          <li>Alta resolución</li>
+          <li>Entrega en 1 día</li>
         </ul>
         <a href="contacto.php" class="btn btn--ghost">Contratar</a>
       </div>

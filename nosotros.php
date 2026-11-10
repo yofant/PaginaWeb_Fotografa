@@ -1,5 +1,6 @@
 <?php
 $titulo_pagina = 'Nosotros | JENI HDZ';
+$meta_descripcion = 'Conoce a JENI HDZ, fotógrafa profesional especializada en moto velocidad. Experiencia en MotoGP, Superbike y campeonatos nacionales.';
 require_once 'includes/header.php';
 ?>
 
@@ -9,7 +10,7 @@ require_once 'includes/header.php';
     <p class="section-subtitle">Pasión por la moto velocidad, lente tras lente.</p>
     <div class="nosotros-grid">
       <div class="nosotros-img">
-        <img src="assets/images/fotografa.jpg" alt="Fotógrafa JENI HDZ" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80'">
+        <img src="assets/uploads/Captura de pantalla 2026-11-07 155720.png" alt="Fotógrafa JENI HDZ" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80'">
         <div class="nosotros-overlay">JENI HDZ</div>
       </div>
       <div class="nosotros-texto">

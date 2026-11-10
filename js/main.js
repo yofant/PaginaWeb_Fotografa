@@ -50,6 +50,7 @@
         const respuesta = await fetch('php/auth.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
           body: JSON.stringify({ email, password })
         });
         const datos = await respuesta.json();

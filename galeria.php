@@ -1,5 +1,6 @@
 <?php
 $titulo_pagina = 'Galería | JENI HDZ';
+$meta_descripcion = 'Galería de fotografías de moto velocidad de JENI HDZ. Filtra por color, número de moto, piloto, fecha y evento. Compra tus fotos favoritas.';
 require_once 'includes/header.php';
 ?>
 
@@ -7,20 +8,7 @@ require_once 'includes/header.php';
   <div class="container">
     <h2 class="section-title">Galería <span class="titulo-morado">de Moto Velocidad</span></h2>
     <p class="section-subtitle">Selecciona las fotos que deseas comprar. Al finalizar serás redirigido/a a WhatsApp.</p>
-
-    <!-- Módulo de Registro Facial para identificación automática -->
-    <div class="registro-facial-panel">
-      <h3>🔐 Identificación por Rostro</h3>
-      <p>Sube una selfie o usa tu cámara para identificar automáticamente las fotos tuyas en la galería.</p>
-      <div class="video-container" id="videoContainer">
-        <video id="video" autoplay playsinline muted></video>
-      </div>
-      <button type="button" id="btnCapturar" class="btn-capturar">Capturar Foto</button>
-      <div class="status-facial info" id="statusFacial">Listo para capturar</div>
-      <div style="margin-top:var(--space-4); font-size:0.85rem; color:var(--color-text-muted);">
-        Esta función es solo para identificación local. Las imágenes faciales no se almacenan en servidores.
-      </div>
-    </div>
+    
 
     <div class="filtros-panel">
       <h3>Filtrar fotos</h3>
@@ -51,7 +39,6 @@ require_once 'includes/header.php';
   </div>
 </section>
 
-<script src="js/gallery.js"></script>
-<script src="js/facial-recognition.js"></script>
+<script src="js/gallery.js?v=4"></script>
 
 <?php require_once 'includes/footer.php'; ?>

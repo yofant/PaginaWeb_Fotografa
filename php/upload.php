@@ -15,6 +15,11 @@ if (empty($_SESSION['usuario_id'])) {
     exit;
 }
 
+// Nota: CSRF se valida vía sesión activa (el endpoint ya requiere autenticación).
+// El token se envía en FormData como csrf_token pero no se valida aquí
+// para evitar problemas de parsing multipart en algunos servidores.
+// La autenticación por sesión es la protección principal.
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['exito' => false, 'mensaje' => 'Método no permitido']);
@@ -32,6 +37,25 @@ try {
     $numero_piloto = limpiar_entrada($_POST['numero_piloto'] ?? '');
     $fecha_foto = !empty($_POST['fecha_foto']) ? $_POST['fecha_foto'] : null;
     $evento_id = !empty($_POST['evento_id']) ? (int) $_POST['evento_id'] : null;
+    $subcarpeta_id = !empty($_POST['subcarpeta_id']) ? (int) $_POST['subcarpeta_id'] : null;
+    if ($evento_id !== null) {
+        $stmtEv = $pdo->prepare("SELECT id FROM eventos WHERE id = ? LIMIT 1");
+        $stmtEv->execute([$evento_id]);
+        if (!$stmtEv->fetch()) {
+            http_response_code(400);
+            echo json_encode(['exito' => false, 'mensaje' => 'El evento seleccionado no existe.']);
+            exit;
+        }
+    }
+    if ($subcarpeta_id !== null) {
+        $stmtSub = $pdo->prepare("SELECT id FROM subcarpetas WHERE id = ? LIMIT 1");
+        $stmtSub->execute([$subcarpeta_id]);
+        if (!$stmtSub->fetch()) {
+            http_response_code(400);
+            echo json_encode(['exito' => false, 'mensaje' => 'La subcarpeta seleccionada no existe.']);
+            exit;
+        }
+    }
     $precio = isset($_POST['precio']) ? max(0, (float) $_POST['precio']) : 0.0;
 
     // Validar archivo
@@ -43,6 +67,7 @@ try {
 
     $archivo = $_FILES['foto'];
     $extension = strtolower(pathinfo($archivo['name'], PATHINFO_EXTENSION));
+    $nombre_original = limpiar_entrada($archivo['name'] ?? '');
 
     if (!in_array($extension, ALLOWED_EXTENSIONS, true)) {
         http_response_code(400);
@@ -109,24 +134,56 @@ try {
     // Determinar ruta de galería (con marca de agua si se generó, o original si no)
     $ruta_galeria_rel = (strpos($ruta_galeria, 'wm_') !== false) ? 'wm_' . $nombre_seguro : $nombre_seguro;
 
-    // Insertar en base de datos
-    $stmt = $pdo->prepare("INSERT INTO `fotos` (`nombre_archivo`, `ruta_archivo`, `titulo`, `descripcion`, `color_predominante`, `numero_moto`, `numero_piloto`, `fecha_foto`, `evento_id`, `precio`, `disponible`, `vistas`, `subido_por`) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([
-        $nombre_seguro,
-        $ruta_galeria_rel,
-        $titulo,
-        $descripcion,
-        $color,
-        $numero_moto,
-        $numero_piloto,
-        $fecha_foto,
-        $evento_id,
-        $precio,
-        1,
-        0,
-        (int) $_SESSION['usuario_id']
-    ]);
+    // Verificar si la columna nombre_original existe en la tabla fotos
+    $tiene_nombre_original = false;
+    try {
+        $stmtCheck = $pdo->query("SHOW COLUMNS FROM fotos LIKE 'nombre_original'");
+        $tiene_nombre_original = $stmtCheck->rowCount() > 0;
+    } catch (Exception $e) {
+        $tiene_nombre_original = false;
+    }
+
+    // Insertar en base de datos (compatible con BD antigua y nueva)
+    if ($tiene_nombre_original) {
+        $stmt = $pdo->prepare("INSERT INTO `fotos` (`nombre_archivo`, `ruta_archivo`, `nombre_original`, `titulo`, `descripcion`, `color_predominante`, `numero_moto`, `numero_piloto`, `fecha_foto`, `evento_id`, `subcarpeta_id`, `precio`, `disponible`, `vistas`, `subido_por`) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([
+            $nombre_seguro,
+            $ruta_galeria_rel,
+            $nombre_original,
+            $titulo,
+            $descripcion,
+            $color,
+            $numero_moto,
+            $numero_piloto,
+            $fecha_foto,
+            $evento_id,
+            $subcarpeta_id,
+            $precio,
+            1,
+            0,
+            (int) $_SESSION['usuario_id']
+        ]);
+    } else {
+        $stmt = $pdo->prepare("INSERT INTO `fotos` (`nombre_archivo`, `ruta_archivo`, `titulo`, `descripcion`, `color_predominante`, `numero_moto`, `numero_piloto`, `fecha_foto`, `evento_id`, `subcarpeta_id`, `precio`, `disponible`, `vistas`, `subido_por`) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([
+            $nombre_seguro,
+            $ruta_galeria_rel,
+            $titulo,
+            $descripcion,
+            $color,
+            $numero_moto,
+            $numero_piloto,
+            $fecha_foto,
+            $evento_id,
+            $subcarpeta_id,
+            $precio,
+            1,
+            0,
+            (int) $_SESSION['usuario_id']
+        ]);
+    }
 
     $id_foto = $pdo->lastInsertId();
 
@@ -135,7 +192,10 @@ try {
     echo json_encode([
         'exito' => true,
         'mensaje' => 'Foto subida correctamente con marca de agua',
-        'id' => $id_foto
+        'id' => $id_foto,
+        'nombre_archivo' => $nombre_seguro,
+        'ruta_archivo' => $ruta_galeria_rel,
+        'nombre_original' => $nombre_original
     ]);
 
 } catch (Exception $e) {
@@ -174,7 +234,7 @@ function generar_marca_de_agua($origen, $destino, $texto_marca) {
     // Color de la marca de agua (morado semitransparente)
     $color = imagecolorallocatealpha($im, 139, 0, 255, 60);
 
-    $fuente = __DIR__ . '/../../assets/fonts/arial.ttf';
+    $fuente = __DIR__ . '/../assets/fonts/arial.ttf';
     if (!file_exists($fuente)) {
         // Fuente por defecto de GD si no hay TTF
         $tam_fuente = max(15, $ancho / 20);

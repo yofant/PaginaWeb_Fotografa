@@ -1,5 +1,6 @@
 <?php
 $titulo_pagina = 'Iniciar sesión | JENI HDZ';
+$meta_descripcion = 'Acceso exclusivo para la fotógrafa JENI HDZ. Gestiona tus fotografías de moto velocidad.';
 require_once 'includes/header.php';
 ?>
 

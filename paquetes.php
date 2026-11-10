@@ -1,5 +1,6 @@
 <?php
 $titulo_pagina = 'Paquetes | JENI HDZ';
+$meta_descripcion = 'Paquetes fotográficos de JENI HDZ para moto velocidad. Básico, Estándar, Premium y Elite. Entrega digital con marca de agua.';
 require_once 'includes/header.php';
 ?>
 
@@ -10,47 +11,57 @@ require_once 'includes/header.php';
     <div class="paquetes-grid">
       <div class="paquete">
         <h3>Básico</h3>
-        <span class="precio">COP $250</span>
+        <span class="precio">COP $40.000</span>
         <ul>
-          <li>5 fotos editadas en alta resolución</li>
-          <li>Marca de agua JENI HDZ</li>
-          <li>Entrega en 3 días hábiles</li>
-          <li>Ideal para una carrera o sesión corta</li>
+          <li>5 fotos editadas</li>
+          <li>1 Foto de obsequio</li>
+          <li>Marca de agua</li>
+          <li>Alta resolución</li>
+          <li>Entrega en 1 día</li>
         </ul>
         <a href="contacto.php" class="btn btn--ghost">Solicitar</a>
       </div>
       <div class="paquete">
         <h3>Estándar</h3>
-        <span class="precio">COP $600</span>
+        <span class="precio">COP $70.000</span>
         <ul>
-          <li>15 fotos editadas en alta resolución</li>
-          <li>1 impresión en canvas pequeña</li>
-          <li>Galería privada de selección</li>
+          <li>10 fotos editadas</li>
+          <li>1 Foto de obsequio</li>
+          <li>Marca de agua</li>
+          <li>Alta resolución</li>
+          <li>Entrega en 1 día</li>
+        </ul>
+        <a href="contacto.php" class="btn btn--ghost">Solicitar</a>
+      </div>
+      <div class="paquete">
+        <h3>Parejas</h3>
+        <span class="precio">COP $120.000</span>
+        <ul>
+          <li>15 fotos editadas</li>
+          <li>1 Foto de obsequio</li>
+          <li>Marca de agua</li>
+          <li>Alta resolución</li>
+          <li>Entrega en 1 día</li>
+        </ul>
+        <a href="contacto.php" class="btn btn--ghost">Solicitar</a>
+      </div>
+      <div class="paquete">
+        <h3>Grupos</h3>
+        <span class="precio">COP $170.000</span>
+        <ul>
+          <li>2 Fotos grupales</li>
+          <li>2 fotos individuales por cada integrante</li>
+          <li>Persona Adicional + 20.000</li>
           <li>Entrega en 5 días hábiles</li>
         </ul>
         <a href="contacto.php" class="btn btn--ghost">Solicitar</a>
       </div>
-      <div class="paquete">
-        <h3>Premium</h3>
-        <span class="precio">COP $1.200</span>
+      <div>
         <ul>
-          <li>30 fotos editadas en alta resolución</li>
-          <li>2 canvas + álbum digital</li>
-          <li>Galería privada de selección</li>
-          <li>Entrega en 7 días hábiles</li>
+          <h1 class="precio">Entregas Digitales</h1>
+          <h1 class="precio">Direcion de Poses</h1>
+          <h1 class="precio">Foto extra COP $8.000</h1>
         </ul>
-        <a href="contacto.php" class="btn btn--ghost">Solicitar</a>
-      </div>
-      <div class="paquete">
-        <h3>Elite Velocidad</h3>
-        <span class="precio">COP $2.500</span>
-        <ul>
-          <li>Todas las fotos del evento seleccionadas</li>
-          <li>Impresión profesional</li>
-          <li>Álbum físico premium</li>
-          <li>Entrega en 10 días hábiles</li>
-        </ul>
-        <a href="contacto.php" class="btn btn--ghost">Solicitar</a>
       </div>
     </div>
   </div>

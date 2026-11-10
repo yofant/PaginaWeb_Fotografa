@@ -1,0 +1,3 @@
+# .htaccess para JENI HDZ
+# Redirigir errores 404 a página personalizada
+ErrorDocument 404 /PaginaWeb_Fotografa/404.php

@@ -73,7 +73,7 @@ La prueba verifica el rechazo de usuarios no autenticados y realiza una subida J
 Después de importar `database.sql`, el usuario predeterminado es:
 
 - **Email:** `jeni@jenihdz.com`
-- **Contraseña:** `12345678`
+- **Contraseña:** `password`
 
 *(Se recomienda cambiar la contraseña en producción.)*
 

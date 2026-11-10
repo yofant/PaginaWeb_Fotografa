@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Reembolsos y Devoluciones | JENI HDZ</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .legal-page { max-width: 800px; margin: 0 auto; padding: var(--space-8) var(--space-5); }
+    .legal-page h1 { font-size: 2rem; margin-bottom: var(--space-6); color: var(--color-primary); }
+    .legal-page h2 { font-size: 1.3rem; margin-top: var(--space-6); margin-bottom: var(--space-3); color: var(--color-text); }
+    .legal-page p, .legal-page li { color: var(--color-text-secondary); line-height: 1.7; margin-bottom: var(--space-3); }
+    .legal-page ul { padding-left: var(--space-5); }
+    .legal-page a { color: var(--color-primary); }
+    .legal-back { display: inline-block; margin-bottom: var(--space-6); color: var(--color-primary); text-decoration: none; }
+    .legal-back:hover { text-decoration: underline; }
+    .legal-highlight { background: var(--color-primary-glass); border-left: 3px solid var(--color-primary); padding: var(--space-3) var(--space-4); margin: var(--space-4) 0; border-radius: var(--radius-md); }
+  </style>
+</head>
+<body class="no-seleccion" style="background: var(--color-bg);">
+
+  <div class="legal-page">
+    <a href="../index.php" class="legal-back">← Volver al inicio</a>
+    <h1>Política de Reembolsos y Devoluciones</h1>
+    <p><strong>Última actualización:</strong> <?php echo date('d/m/Y'); ?></p>
+
+    <div class="legal-highlight">
+      <p style="margin:0;"><strong>Importante:</strong> Debido a la naturaleza digital de los productos (fotografías), 
+      los reembolsos se gestionan caso por caso. Lee esta política antes de realizar tu compra.</p>
+    </div>
+
+    <h2>1. Naturaleza de los productos</h2>
+    <p>
+      JENI HDZ ofrece fotografías digitales de moto velocidad con marca de agua. 
+      Una vez que el cliente recibe las fotografías finales (sin marca de agua) mediante descarga digital, 
+      el producto se considera entregado y no es posible su devolución física.
+    </p>
+
+    <h2>2. Casos en los que aplica reembolso</h2>
+    <p>Se considerará reembolso o compensación en los siguientes casos:</p>
+    <ul>
+      <li><strong>Error en la entrega:</strong> Si las fotografías entregadas no corresponden a las seleccionadas por el cliente.</li>
+      <li><strong>Calidad deficiente:</strong> Si las imágenes presentan defectos técnicos graves (corrupción, resolución insuficiente) que no fueron causados por el cliente.</li>
+      <li><strong>Duplicado de pago:</strong> Si se realizó un pago duplicado por error.</li>
+      <li><strong>Cancelación previa a la entrega:</strong> Si el cliente cancela antes de recibir las fotografías finales.</li>
+    </ul>
+
+    <h2>3. Casos en los que NO aplica reembolso</h2>
+    <ul>
+      <li>El cliente cambió de opinión después de recibir las fotografías finales.</li>
+      <li>El cliente no está satisfecho con el estilo artístico o la composición (las fotos se muestran con marca de agua antes de la compra).</li>
+      <li>Problemas técnicos del dispositivo del cliente (no puede abrir los archivos, etc.).</li>
+      <li>Solicitud de reembolso después de 7 días de la entrega final.</li>
+    </ul>
+
+    <h2>4. Procedimiento de solicitud de reembolso</h2>
+    <ol style="color: var(--color-text-secondary); line-height: 1.7; padding-left: var(--space-5);">
+      <li>Enviar un correo a <a href="mailto:jeni@jenihdz.com">jeni@jenihdz.com</a> con el asunto "Solicitud de reembolso".</li>
+      <li>Incluir el número de compra, nombre del cliente y motivo detallado.</li>
+      <li>Adjuntar evidencia (capturas de pantalla) si aplica.</li>
+      <li>La fotógrafa responderá en un plazo máximo de 5 días hábiles.</li>
+      <li>Si se aprueba, el reembolso se procesará por el mismo medio de pago original.</li>
+    </ol>
+
+    <h2>5. Cancelación de servicios (paquetes)</h2>
+    <p>
+      Para paquetes fotográficos (Básico, Estándar, Premium, Elite Velocidad):
+    </p>
+    <ul>
+      <li><strong>Antes de la sesión:</strong> Cancelación gratuita con 48 horas de anticipación.</li>
+      <li><strong>Durante la sesión:</strong> No aplica reembolso si la sesión ya se realizó.</li>
+      <li><strong>Después de la entrega:</strong> No aplica reembolso (ver sección 3).</li>
+    </ul>
+
+    <h2>6. Contacto</h2>
+    <p>
+      Para cualquier consulta sobre reembolsos o devoluciones, contáctanos en:
+      <a href="mailto:jeni@jenihdz.com">jeni@jenihdz.com</a> o por WhatsApp al 
+      <a href="https://wa.me/573125879821">+57 312 587 9821</a>.
+    </p>
+  </div>
+
+</body>
+</html>
+```
+
+### Instrucciones de ubicación
+- **Crear archivo:** `docs/politica-reembolsos.html`
+- **Enlazar desde el footer:** Agregar en `includes/footer.php` junto a los otros enlaces legales.
+- **Enlazar desde contacto.php:** Agregar referencia en el formulario de contacto.
+
+---
+
+Continúo con los demás ítems. Dado el volumen, voy a implementar varios a la vez.<|end|><|start|>Assistant to=write<|channel|>analysis <|constrain|>xml<|message|><rfl:parameter name="content">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviso Legal | JENI HDZ</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .legal-page { max-width: 800px; margin: 0 auto; padding: var(--space-8) var(--space-5); }
+    .legal-page h1 { font-size: 2rem; margin-bottom: var(--space-6); color: var(--color-primary); }
+    .legal-page h2 { font-size: 1.3rem; margin-top: var(--space-6); margin-bottom: var(--space-3); color: var(--color-text); }
+    .legal-page p, .legal-page li { color: var(--color-text-secondary); line-height: 1.7; margin-bottom: var(--space-3); }
+    .legal-page ul { padding-left: var(--space-5); }
+    .legal-page a { color: var(--color-primary); }
+    .legal-back { display: inline-block; margin-bottom: var(--space-6); color: var(--color-primary); text-decoration: none; }
+    .legal-back:hover { text-decoration: underline; }
+  </style>
+</head>
+<body class="no-seleccion" style="background: var(--color-bg);">
+
+  <div class="legal-page">
+    <a href="../index.php" class="legal-back">← Volver al inicio</a>
+    <h1>Aviso Legal</h1>
+    <p><strong>Última actualización:</strong> <?php echo date('d/m/Y'); ?></p>
+
+    <h2>1. Datos identificativos</h2>
+    <p>
+      En cumplimiento de la normativa vigente, se informa que el titular del sitio web 
+      <strong>JENI HDZ — Fotografía Moto Velocidad</strong> es:
+    </p>
+    <ul>
+      <li><strong>Nombre:</strong> Catherine Hernández (JENI HDZ)</li>
+      <li><strong>Correo electrónico:</strong> jeni@jenihdz.com</li>
+      <li><strong>Teléfono / WhatsApp:</strong> +57 312 587 9821</li>
+      <li><strong>Ubicación:</strong> Colombia</li>
+      <li><strong>Actividad:</strong> Fotografía profesional de moto velocidad</li>
+    </ul>
+
+    <h2>2. Objeto</h2>
+    <p>
+      El presente aviso legal regula el uso y navegación del sitio web de JENI HDZ, 
+      cuyo objetivo es ofrecer servicios de fotografía profesional de moto velocidad, 
+      venta de fotografías digitales y paquetes fotográficos.
+    </p>
+
+    <h2>3. Propiedad intelectual</h2>
+    <p>
+      Todas las fotografías, imágenes, textos y diseños presentes en este sitio web 
+      son propiedad de JENI HDZ y están protegidos por las leyes de propiedad intelectual. 
+      Queda prohibida la reproducción, distribución o uso comercial sin autorización expresa.
+    </p>
+    <p>
+      Las imágenes de la galería están protegidas con marca de agua. La descarga, captura 
+      de pantalla o reproducción no autorizada está prohibida.
+    </p>
+
+    <h2>4. Condiciones de uso</h2>
+    <p>
+      El acceso y uso de este sitio web implica la aceptación de los 
+      <a href="terminos-condiciones.html">Términos y Condiciones</a> y el 
+      <a href="aviso-privacidad.html">Aviso de Privacidad</a>.
+    </p>
+
+    <h2>5. Exclusión de responsabilidad</h2>
+    <p>
+      JENI HDZ no se hace responsable de los daños derivados del uso del sitio web, 
+      interrupciones del servicio, ni de la exactitud de la información proporcionada 
+      por terceros (enlaces externos, imágenes de referencia).
+    </p>
+
+    <h2>6. Legislación aplicable</h2>
+    <p>
+      Este aviso legal se rige por la legislación colombiana vigente. 
+      Cualquier controversia será sometida a los tribunales competentes de Colombia.
+    </p>
+
+    <h2>7. Contacto</h2>
+    <p>
+      Para cualquier consulta legal, contáctanos en:
+      <a href="mailto:jeni@jenihdz.com">jeni@jenihdz.com</a> o por WhatsApp al 
+      <a href="https://wa.me/573125879821">+57 312 587 9821</a>.
+    </p>
+  </div>
+
+</body>
+</html>
+```
+
+### Instrucciones de ubicación
+- **Crear archivo:** `docs/aviso-legal.html`
+- **Enlazar desde el footer:** Agregar en `includes/footer.php` junto a los otros enlaces legales.
+
+---
+
+Continúo con los siguientes ítems. Voy a implementar varios a la vez.<|end|><|start|>Assistant to=write<|channel|>analysis <|constrain|>xml<|message|><rfl:parameter name="content">
+# robots.txt para JENI HDZ - Fotografía Moto Velocidad
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: http://localhost/PaginaWeb_Fotografa/sitemap.xml
+
+# Bloquear acceso a carpetas privadas
+Disallow: /php/
+Disallow: /includes/
+Disallow: /assets/uploads/
+Disallow: /docs/
+
+# Permitir acceso a assets estáticos
+Allow: /assets/images/
+Allow: /css/
+Allow: /js/

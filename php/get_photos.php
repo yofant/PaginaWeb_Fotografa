@@ -13,12 +13,30 @@ try {
     $filtros = [];
     $params = [];
 
-    $sql = "SELECT f.id, f.nombre_archivo, f.ruta_archivo, f.titulo, f.descripcion, 
-                   f.color_predominante, f.numero_moto, f.numero_piloto, f.fecha_foto, 
-                   f.precio, f.vistas, e.nombre AS evento_nombre
-            FROM fotos f
-            LEFT JOIN eventos e ON f.evento_id = e.id
-            WHERE f.disponible = 1";
+    // Verificar si la columna nombre_original existe
+    $tiene_nombre_original = false;
+    try {
+        $stmtCheck = $pdo->query("SHOW COLUMNS FROM fotos LIKE 'nombre_original'");
+        $tiene_nombre_original = $stmtCheck->rowCount() > 0;
+    } catch (Exception $e) {
+        $tiene_nombre_original = false;
+    }
+
+    if ($tiene_nombre_original) {
+        $sql = "SELECT f.id, f.nombre_archivo, f.ruta_archivo, f.nombre_original, f.titulo, f.descripcion, 
+                       f.color_predominante, f.numero_moto, f.numero_piloto, f.fecha_foto, 
+                       f.precio, f.vistas, f.evento_id, f.subcarpeta_id, f.subido_por, e.nombre AS evento_nombre
+                FROM fotos f
+                LEFT JOIN eventos e ON f.evento_id = e.id
+                WHERE f.disponible = 1";
+    } else {
+        $sql = "SELECT f.id, f.nombre_archivo, f.ruta_archivo, f.titulo, f.descripcion, 
+                       f.color_predominante, f.numero_moto, f.numero_piloto, f.fecha_foto, 
+                       f.precio, f.vistas, f.evento_id, f.subcarpeta_id, f.subido_por, e.nombre AS evento_nombre
+                FROM fotos f
+                LEFT JOIN eventos e ON f.evento_id = e.id
+                WHERE f.disponible = 1";
+    }
 
     // Filtro por color
     if (!empty($_GET['color'])) {
@@ -48,6 +66,12 @@ try {
     if (!empty($_GET['evento'])) {
         $sql .= " AND f.evento_id = ?";
         $params[] = intval($_GET['evento']);
+    }
+
+    // Filtro por subcarpeta
+    if (!empty($_GET['subcarpeta'])) {
+        $sql .= " AND f.subcarpeta_id = ?";
+        $params[] = intval($_GET['subcarpeta']);
     }
 
     $sql .= " ORDER BY f.fecha_subida DESC";

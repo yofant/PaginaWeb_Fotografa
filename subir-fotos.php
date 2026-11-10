@@ -1,11 +1,14 @@
 <?php
+require_once __DIR__ . '/php/config.php';
 $titulo_pagina = 'Subir Fotos | JENI HDZ';
-require_once 'includes/header.php';
+$meta_descripcion = 'Panel privado de subida de fotos para la fotógrafa JENI HDZ. Sube imágenes con marca de agua automática.';
 
 if (empty($_SESSION['usuario_id'])) {
     header('Location: login.php');
     exit;
 }
+
+require_once 'includes/header.php';
 ?>
 
 <section class="section" style="padding-top:calc(var(--space-12) + 76px);">
@@ -50,8 +53,14 @@ if (empty($_SESSION['usuario_id'])) {
             </select>
           </div>
           <div class="form-group">
+            <label for="subcarpeta_id">Subcarpeta</label>
+            <select id="subcarpeta_id" name="subcarpeta_id" disabled>
+              <option value="">Primero selecciona un evento</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label for="precio">Precio (COP)</label>
-            <input type="number" id="precio" name="precio" min="0" step="0.01" placeholder="0.00">
+            <input type="number" id="precio" name="precio" min="0" step="0.01" placeholder="0.000">
           </div>
         </div>
         <div class="form-group" style="grid-column:1/-1;">
@@ -66,6 +75,7 @@ if (empty($_SESSION['usuario_id'])) {
   </div>
 </section>
 
-<script src="js/upload.js?v=2"></script>
+<script>window.csrfToken = '<?php echo generar_token_csrf(); ?>';</script>
+<script src="js/upload.js?v=5"></script>
 
 <?php require_once 'includes/footer.php'; ?>

@@ -14,8 +14,8 @@ define('DB_CHARSET', 'utf8mb4');
 
 // Configuración de seguridad
 define('APP_NAME', 'JENI HDZ - Fotografía Moto Velocidad');
-define('APP_URL', 'http://localhost/JENI-HDZ');
-define('WHATSAPP_NUMBER', '+525512345678'); // Número de WhatsApp de la fotógrafa
+define('APP_URL', 'http://localhost/PaginaWeb_Fotografa');
+define('WHATSAPP_NUMBER', '+573125879821'); // Número de WhatsApp de la fotógrafa
 define('SESSION_TIMEOUT', 1800); // 30 minutos de inactividad
 
 // Extensiones de archivo permitidas para subida
@@ -91,6 +91,20 @@ if (session_status() === PHP_SESSION_NONE) {
     ini_set('session.cookie_httponly', 1);
     ini_set('session.cookie_secure', 0); // Poner 1 en producción con HTTPS
     ini_set('session.use_only_cookies', 1);
+    ini_set('session.cookie_path', '/'); // Cookie válida en todo el sitio
+    ini_set('session.cookie_samesite', 'Lax');
     session_start();
+}
+
+// Validar expiración de sesión por inactividad (SESSION_TIMEOUT)
+if (!empty($_SESSION['usuario_id'])) {
+    $ahora = time();
+    $ultima_actividad = $_SESSION['ultima_actividad'] ?? $ahora;
+    if (($ahora - $ultima_actividad) > SESSION_TIMEOUT) {
+        session_destroy();
+        $_SESSION = [];
+    } else {
+        $_SESSION['ultima_actividad'] = $ahora;
+    }
 }
 ?>

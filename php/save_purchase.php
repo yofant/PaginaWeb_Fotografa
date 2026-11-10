@@ -5,7 +5,7 @@
  */
 require_once 'config.php';
 
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -14,15 +14,27 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 try {
+    // Leer el body una sola vez
+    $raw_input = file_get_contents('php://input');
+    $datos = json_decode($raw_input, true);
+
+    // Validar token CSRF
+    $token_csrf = $datos['csrf_token'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (!validar_token_csrf($token_csrf)) {
+        http_response_code(403);
+        echo json_encode(['exito' => false, 'mensaje' => 'Token CSRF inválido']);
+        exit;
+    }
+
     $pdo = db_connect();
-    $datos = json_decode(file_get_contents('php://input'), true);
 
     $nombre = limpiar_entrada($datos['nombre'] ?? '');
     $email = limpiar_entrada($datos['email'] ?? '');
     $telefono = limpiar_entrada($datos['telefono'] ?? '');
     $whatsapp = limpiar_entrada($datos['whatsapp'] ?? $telefono);
     $fotos = $datos['fotos'] ?? []; // array de IDs de fotos
-    $total = floatval($datos['total'] ?? 0);
+    // El total se recalcula desde la base de datos (se ignora el enviado por el cliente)
+    $total = 0;
 
     if (empty($nombre) || empty($whatsapp) || empty($fotos)) {
         http_response_code(400);
@@ -30,9 +42,9 @@ try {
         exit;
     }
 
-    // Obtener detalles de las fotos seleccionadas
+    // Obtener detalles de las fotos seleccionadas (incluyendo nombre original)
     $placeholders = implode(',', array_fill(0, count($fotos), '?'));
-    $stmt = $pdo->prepare("SELECT id, titulo, precio, ruta_archivo FROM fotos WHERE id IN ($placeholders)");
+    $stmt = $pdo->prepare("SELECT id, titulo, precio, ruta_archivo, nombre_original, nombre_archivo, evento_id FROM fotos WHERE id IN ($placeholders)");
     $stmt->execute($fotos);
     $fotos_seleccionadas = $stmt->fetchAll();
 
@@ -44,28 +56,39 @@ try {
     );
     $url_aplicacion = ($es_https ? 'https://' : 'http://') . $host . $ruta_aplicacion;
 
-    // Construir mensaje de WhatsApp
+    // Construir mensaje de WhatsApp con formato elegante y profesional (sin emojis)
+    $sep = "━━━━━━━━━━━━━━━━━━━━";
     $lineas = [];
-    $lineas[] = "🏍️ *Nueva solicitud de compra - JENI HDZ Fotografía Moto Velocidad*";
+    $lineas[] = "*JENI HDZ — Fotografía Moto Velocidad*";
+    $lineas[] = "_Nueva solicitud de compra_";
     $lineas[] = "";
-    $lineas[] = "👤 Cliente: " . $nombre;
-    $lineas[] = "📧 Email: " . ($email ?: 'No proporcionado');
-    $lineas[] = "📞 WhatsApp: " . $whatsapp;
+    $lineas[] = $sep;
+    $lineas[] = "*Cliente:* " . $nombre;
+    $lineas[] = "*Email:* " . ($email ?: 'No proporcionado');
+    $lineas[] = "*WhatsApp:* " . $whatsapp;
+    $lineas[] = $sep;
     $lineas[] = "";
-    $lineas[] = "📸 Fotos seleccionadas:";
+    $lineas[] = "*Fotos seleccionadas (" . count($fotos_seleccionadas) . "):*";
+    $lineas[] = "";
 
     $total_calc = 0;
     foreach ($fotos_seleccionadas as $f) {
-        $lineas[] = "• Foto #" . $f['id'] . " - " . ($f['titulo'] ?: 'Sin título') . " - COP $" . number_format($f['precio'], 2, ',', '.');
-        $lineas[] = "  Ver foto: " . $url_aplicacion . '/assets/uploads/' . rawurlencode(basename($f['ruta_archivo']));
+        $titulo_foto = $f['titulo'] ?: 'Sin título';
+        $nombre_archivo = $f['nombre_original'] ?: $f['nombre_archivo'];
+        $precio_fmt = "COP $" . number_format($f['precio'], 3, ',', '.');
+
+        $lineas[] = "• *Foto #" . $f['id'] . "* — " . $titulo_foto;
+        $lineas[] = "  Archivo: " . $nombre_archivo;
+        $lineas[] = "  Precio: " . $precio_fmt;
+        $lineas[] = "";
         $total_calc += floatval($f['precio']);
     }
 
+    $lineas[] = $sep;
+    $lineas[] = "*Total: COP $" . number_format($total_calc, 3, ',', '.') . "*";
     $lineas[] = "";
-    $lineas[] = "💰 Total: COP $" . number_format($total_calc, 2, ',', '.');
-    $lineas[] = "";
-    $lineas[] = "🏁 Evento: Moto Velocidad";
-    $lineas[] = "🔗 Página: " . $url_aplicacion;
+    $lineas[] = "Evento: Moto Velocidad";
+    $lineas[] = "Página: " . $url_aplicacion;
 
     $mensaje = implode("\n", $lineas);
 
@@ -100,4 +123,5 @@ try {
     http_response_code(500);
     echo json_encode(['exito' => false, 'mensaje' => 'Error al procesar la compra']);
 }
+
 ?>

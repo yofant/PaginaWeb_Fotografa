@@ -1,15 +1,40 @@
 /* Ajustes adicionales responsive para JENI-HDZ */
+@media (max-width: 1024px) {
+  .nosotros-grid { grid-template-columns: 1fr; }
+  .contacto-grid { grid-template-columns: 1fr; }
+  .paquetes-grid { grid-template-columns: repeat(2, 1fr); }
+  .eventos-grid { grid-template-columns: repeat(2, 1fr); }
+  .galeria-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 768px) {
   .hero h1 { font-size: 2rem; line-height: 1.2; }
   .section-title { font-size: 1.8rem; }
   .nosotros-texto h2 { font-size: 1.8rem; }
   .contacto-info h2 { font-size: 1.8rem; }
-  .filtros-galeria { gap: 8px; padding: 15px; }
-  .filtro-btn { padding: 8px 14px; font-size: 0.85rem; }
+  .filtros-chip-group { gap: 8px; padding: 15px; }
+  .filtro-chip { padding: 8px 14px; font-size: 0.85rem; }
+  .paquetes-grid { grid-template-columns: 1fr; }
+  .eventos-grid { grid-template-columns: 1fr; }
+  .galeria-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .nav-links { flex-direction: column; }
+  .modal-edicion-contenido,
+  .modal-evento-contenido { max-width: 95vw; }
+  .evento-detalle-header { grid-template-columns: 1fr; }
+  .evento-detalle-imagen img { height: 250px; }
+  .evento-detalle-info .section-title { font-size: 1.8rem; }
+  .galeria-acciones { opacity: 1; }
 }
 
 @media (max-width: 480px) {
   .hero h1 { font-size: 1.6rem; }
   .paquete { padding: 20px; }
   .panel-carrito { width: 100%; }
+  .btn { min-height: 44px; font-size: 0.9rem; }
+  .galeria-item .btn-agregar { width: 32px; height: 32px; }
+  .evento-acciones button { width: 32px; height: 32px; font-size: 1rem; }
+  .cookie-banner-contenido { flex-direction: column; text-align: center; }
+  .cookie-banner-botones { width: 100%; justify-content: center; }
 }
