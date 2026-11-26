@@ -21,7 +21,7 @@ require_once 'includes/header.php';
   <div class="container">
     <div class="nosotros-grid">
       <div class="nosotros-img">
-        <img src="assets/uploads/WhatsApp Image 2026-11-07 at 2.14.54 PM.jpeg" alt="Moto velocidad en pista" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1577003724279-73e46c3b6ec0?w=800&q=80'">
+        <img src="assets/uploads/jeni.jpg" alt="Moto velocidad en pista" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1577003724279-73e46c3b6ec0?w=800&q=80'">
         <div class="nosotros-overlay">JENI HDZ</div>
       </div>
       <div class="nosotros-texto">
