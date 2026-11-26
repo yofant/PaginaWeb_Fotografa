@@ -60,7 +60,7 @@ require_once 'includes/header.php';
           </div>
           <div class="form-group">
             <label for="precio">Precio (COP)</label>
-            <input type="number" id="precio" name="precio" min="0" step="0.01" placeholder="0.000">
+            <input type="number" id="precio" name="precio" min="0" step="1" placeholder="Ej. 10000 (10.000 COP)">
           </div>
         </div>
         <div class="form-group" style="grid-column:1/-1;">

@@ -181,7 +181,7 @@ $esFotografa = !empty($_SESSION['usuario_id']) && in_array($_SESSION['usuario_ro
       
       <div class="form-group">
         <label for="agregarFotoPrecio">Precio (COP)</label>
-        <input type="number" id="agregarFotoPrecio" name="precio" min="0" step="0.01" placeholder="0.00">
+        <input type="number" id="agregarFotoPrecio" name="precio" min="0" step="1" placeholder="Ej. 10000 (10.000 COP)">
       </div>
       
       <div id="mensajeAgregarFoto" class="alerta" style="display:none; margin-top:var(--space-3);"></div>

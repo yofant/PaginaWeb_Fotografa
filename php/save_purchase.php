@@ -75,7 +75,7 @@ try {
     foreach ($fotos_seleccionadas as $f) {
         $titulo_foto = $f['titulo'] ?: 'Sin título';
         $nombre_archivo = $f['nombre_original'] ?: $f['nombre_archivo'];
-        $precio_fmt = "COP $" . number_format($f['precio'], 3, ',', '.');
+        $precio_fmt = "COP $" . number_format($f['precio'], 0, ',', '.');
 
         $lineas[] = "• *Foto #" . $f['id'] . "* — " . $titulo_foto;
         $lineas[] = "  Archivo: " . $nombre_archivo;
@@ -85,7 +85,7 @@ try {
     }
 
     $lineas[] = $sep;
-    $lineas[] = "*Total: COP $" . number_format($total_calc, 3, ',', '.') . "*";
+    $lineas[] = "*Total: COP $" . number_format($total_calc, 0, ',', '.') . "*";
     $lineas[] = "";
     $lineas[] = "Evento: Moto Velocidad";
     $lineas[] = "Página: " . $url_aplicacion;

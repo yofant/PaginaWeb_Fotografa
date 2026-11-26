@@ -253,7 +253,7 @@
           </div>
           <div class="form-group">
             <label for="editFotoPrecio">Precio (COP)</label>
-            <input type="number" id="editFotoPrecio" name="precio" min="0" step="0.01">
+            <input type="number" id="editFotoPrecio" name="precio" min="0" step="1" placeholder="Ej. 10000 (10.000 COP)">
           </div>
           <div id="mensajeEdicionFoto" class="alerta" style="display:none; margin-top:var(--space-3);"></div>
           <div style="display:flex; gap:var(--space-3); margin-top:var(--space-5); justify-content:flex-end;">

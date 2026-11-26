@@ -118,7 +118,7 @@ header('Expires: 0');
     <div class="panel-footer">
       <div class="total-carrito">
         <span>Total:</span>
-        <span id="totalCarrito">COP $0,000</span>
+        <span id="totalCarrito">COP $0</span>
       </div>
       <button class="btn-whatsapp" id="btnWhatsApp">
         <span>💬</span> Finalizar en WhatsApp
